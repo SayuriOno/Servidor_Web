@@ -6,15 +6,19 @@
 const char* SSID = "xicrinho";
 const char* SENHA = "cupheadxicras";
 
+bool statusLed = false;
+
 WebServer servidorWeb(80); // instancia um objeto para criar um WebServer.
 
 // Funcao para gerar a pagina HTML que aparece no navegador.
 void paginaInicial()
 {
-  String status = digitalRead(48) ? "Ligado":"Desligado";
+  String status = statusLed ? "Ligado":"Desligado";
 
   String nana_html =
   "<meta name='viewport' content='width=device-width'>"
+  "<meta charset= 'UTF-8'>"
+  
   "<p>LED: <b>"+ status +"</b></p>" 
   "<a href='/on'><button>LIGAR</button></a>"
   "<a href='/off'><button>DESLIGAR</button></a>";
@@ -25,11 +29,12 @@ void paginaInicial()
 void ligar()
 {
   rgbLedWrite(48, 127, 255, 212);
+  statusLed = true;
   paginaInicial();
 }
 
 void desligar()
-{
+{ statusLed = false;
   rgbLedWrite(48, 0, 0, 0);
   paginaInicial();
 }
